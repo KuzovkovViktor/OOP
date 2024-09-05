@@ -9,7 +9,7 @@ print("Числа в форматі цілих чисел:", end=" ")
 for number in numbers:
     print(int(number), end=" ")
 print()
-
+ 
 print("Числа в дробному форматі:", end=" ")
 for number in numbers:
     print(f"{number:.2f}", end=" ")
