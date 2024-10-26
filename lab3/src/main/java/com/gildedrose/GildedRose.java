@@ -16,84 +16,57 @@ class GildedRose {
     private void updateItemQuality(Item item) {
         if (isSpecialItem(item)) {
             updateSpecialItemQuality(item);
-            decreaseSellIn(item);
-            handleExpiredItem(item);
-            return;
+        } else {
+            updateRegularItemQuality(item);
         }
-        updateRegularItemQuality(item);
-        decreaseSellIn(item);
+
+        item.sellIn.decrease();
         handleExpiredItem(item);
     }
 
     private boolean isSpecialItem(Item item) {
-        return item.name.equals("Aged Brie") || item.name.equals("Backstage passes to a TAFKAL80ETC concert");
+        return item.name.isEqualTo("Aged Brie") || item.name.isEqualTo("Backstage passes to a TAFKAL80ETC concert");
     }
 
     private void updateSpecialItemQuality(Item item) {
-        if (item.quality >= 50) {
-            return;
-        }
+        item.quality.increase();
 
-        item.quality += 1;
-
-        if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        if (item.name.isEqualTo("Backstage passes to a TAFKAL80ETC concert")) {
             updateBackstagePassQuality(item);
         }
     }
 
     private void updateBackstagePassQuality(Item item) {
-        if (item.sellIn < 11 && item.quality < 50) {
-            item.quality += 1;
+        if (item.sellIn.getDays() < 11) {
+            item.quality.increase();
         }
 
-        if (item.sellIn < 6 && item.quality < 50) {
-            item.quality += 1;
+        if (item.sellIn.getDays() < 6) {
+            item.quality.increase();
         }
     }
 
     private void updateRegularItemQuality(Item item) {
-        if (item.quality <= 0 || item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            return;
+        if (!item.name.isEqualTo("Sulfuras, Hand of Ragnaros")) {
+            item.quality.decrease();
         }
-
-        item.quality -= 1;
-    }
-
-    private void decreaseSellIn(Item item) {
-        if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            return;
-        }
-
-        item.sellIn -= 1;
     }
 
     private void handleExpiredItem(Item item) {
-        if (item.sellIn >= 0) {
+        if (!item.sellIn.isExpired()) {
             return;
         }
 
-        if (item.name.equals("Aged Brie")) {
-            increaseQualityIfNotMax(item);
+        if (item.name.isEqualTo("Aged Brie")) {
+            item.quality.increase();
             return;
         }
 
-        if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            item.quality = 0;
+        if (item.name.isEqualTo("Backstage passes to a TAFKAL80ETC concert")) {
+            item.quality.reset();
             return;
         }
 
-        decreaseQualityIfPositive(item);
-    }
-
-    private void increaseQualityIfNotMax(Item item) {
-        if (item.quality < 50) {
-            item.quality += 1;
-        }
-    }
-
-    private void decreaseQualityIfPositive(Item item) {
-        if (item.quality > 0) {
-            item.quality -= 1;
-        }
+        item.quality.decrease();
     }
 }
