@@ -7,10 +7,6 @@ class Quality {
         this.quality = Math.max(0, Math.min(quality, 50));
     }
 
-    public int getQuality() {
-        return quality;
-    }
-
     public void increase() {
         if (quality < 50) {
             quality += 1;
@@ -25,5 +21,10 @@ class Quality {
 
     public void reset() {
         quality = 0;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(quality);
     }
 }

@@ -7,11 +7,12 @@ class Name {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public boolean isEqualTo(String otherName) {
         return name.equals(otherName);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

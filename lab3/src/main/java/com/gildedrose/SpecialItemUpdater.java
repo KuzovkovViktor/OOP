@@ -13,11 +13,11 @@ class SpecialItemUpdater {
     }
 
     private void updateBackstagePassQuality(Item item) {
-        if (item.sellIn.getDays() < 11) {
+        if (item.sellIn.isBelow(11)) {
             item.quality.increase();
         }
 
-        if (item.sellIn.getDays() < 6) {
+        if (item.sellIn.isBelow(6)) {
             item.quality.increase();
         }
     }

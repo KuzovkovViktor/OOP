@@ -13,6 +13,6 @@ class Item {
 
     @Override
     public String toString() {
-        return name.getName() + ", " + sellIn.getDays() + ", " + quality.getQuality();
+        return name + ", " + sellIn + ", " + quality;
     }
 }
